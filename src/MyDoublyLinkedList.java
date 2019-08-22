@@ -1,4 +1,4 @@
-import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implements Cloneable {
     int size = 0;
@@ -109,7 +109,94 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
 
     @Override
     public ListIterator<E> listIterator(int index) {
-        return null;
+        return new ListIterator();
+    }
+
+    public class ListIterator<E> implements java.util.ListIterator<E> {
+        // Declare current node, last node accessed and index
+        private Node current = dummyHead;
+        private Node last = null;
+        private int i = 0;
+
+        // Define method for determining if a list has a next node
+        @Override
+        public boolean hasNext() {
+            return (i < size);
+        }
+
+        // Define method for returning next element in list
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            last = current;
+            E e = (E) current.element;
+            current = current.next;
+            i++;
+            return e;
+        }
+
+        // Define method for determining if a list has a previous node
+        @Override
+        public boolean hasPrevious() {
+            return (i > size);
+        }
+
+        // Define method for returning previous element in list
+        @Override
+        public E previous() {
+            if (!hasPrevious()) {
+                throw new NoSuchElementException();
+            }
+            current = current.prev;
+            E e = (E) current.element;
+            i--;
+            last = current;
+            return e;
+        }
+
+        // Define method for returning the next index in the list
+        @Override
+        public int nextIndex() {
+            return i + 1;
+        }
+
+        // Define method for returning the previous index in the list
+        @Override
+        public int previousIndex() {
+            return i - 1;
+        }
+
+        // Define method for removing the last element that was returned by next() or previous()
+        @Override
+        public void remove() {
+            if (last == null) {
+                throw new IllegalStateException();
+            }
+            Node<E> p = last.prev;
+            Node<E> n = last.next;
+            p.next = n;
+            n.prev = p;
+            size--;
+            if (current == last) {
+                current = n;
+            } else {
+                i--;
+            }
+            last = null;
+        }
+
+        @Override
+        public void set(E e) {
+
+        }
+
+        // Define method for inserting specified element into list
+        @Override
+        public void add(E e) {
+
+        }
     }
 
     @Override
