@@ -12,6 +12,22 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         size = 0;
     }
 
+    // Implement Equals method for MyList
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        } else if (!(o instanceof MyList)) {
+            return false;
+        }
+        if (((MyList) o).size() != this.size()) {
+            return false;
+        } else {
+            // Use iterator for this part
+        }
+
+    }
+
     // implement getFirst method
     @Override
     public E getFirst() {
