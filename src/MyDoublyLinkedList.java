@@ -42,8 +42,15 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         if (((MyList) o).size() != this.size()) {
             return false;
         } else {
-            // Not fully build yet, returning false as default until iterator is built
-            return false;// Use iterator for this part
+            /* Instantiate new iterators to compare objects
+            ListIterator<E> thisIterator = new ListIterator<E>(this);
+            ListIterator<E> otherIterator = new ListIterator<E>((MyDoublyLinkedList<E>) o);
+            while (thisIterator.hasNext() && otherIterator.hasNext()) {
+                if (thisIterator.next() != otherIterator.next()) {
+                    return false;
+                }
+            } */
+            return true;
         }
 
     }
@@ -153,7 +160,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
 
     @Override
     public ListIterator<E> listIterator(int index) {
-        return new ListIterator();
+        return new ListIterator(index);
     }
 
     public class ListIterator<E> implements java.util.ListIterator<E> {
@@ -161,6 +168,9 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         private Node current = dummyHead.next;
         private Node last = null;
         private int i = 0;
+
+        public ListIterator(int index ) {
+        }
 
         // Define method for determining if a list has a next node
         @Override
@@ -246,7 +256,9 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
     @Override
     public void add(int index, E e) {
         // Boundary cases
-        if (index == 0) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        } else if (index == 0) {
             addFirst(e);
         } else if (index >= size) {
             addLast(e);
@@ -331,7 +343,27 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
 
     @Override
     public Object set(int index, E e) {
-        return null;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            // Create new node from e
+            Node<E> newNode = new Node<E>(e);
+
+            // Set variable for target replacement node
+            Node<E> target = dummyHead.next;
+
+            // Iterate through list until target is found
+            for(int i=0; i < index; i++) {
+                target = target.next;
+            }
+
+            // Stitch up nodes in between, return target
+            target.prev.next = newNode;
+            target.next.prev = newNode;
+            newNode.next = target.next;
+            newNode.prev = target.prev;
+            return target.element;
+        }
     }
 
     // Class definition for Node object
