@@ -22,7 +22,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         for(int i = 0; i < size; i++) {
             str.append(current.element);
             current = current.next;
-            if (current != null) {
+            if (current != dummyHead) {
                 str.append(", ");
             } else {
                 str.append("]");
@@ -112,6 +112,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         dummyHead.prev = newLast;
 
         size++;
+        super.size++;
     }
 
     // Implement removeFirst method
@@ -266,6 +267,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
             current.next = new Node<E>(e);
             (current.next).next = temp;
             size++;
+            super.size++;
         }
     }
 

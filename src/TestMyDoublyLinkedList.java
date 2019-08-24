@@ -24,9 +24,7 @@ public class TestMyDoublyLinkedList {
 	}
 
     list.add("Alabama");
-    // test System.out.println(list.toString());
 	list.add("Alaska");
-	System.out.println(list.toString());
  	list.add("Arizona");
 	list.add("Arkansas");
 
