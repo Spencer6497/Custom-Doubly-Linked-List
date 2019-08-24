@@ -158,7 +158,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
 
     public class ListIterator<E> implements java.util.ListIterator<E> {
         // Declare current node, last node accessed and index
-        private Node current = dummyHead;
+        private Node current = dummyHead.next;
         private Node last = null;
         private int i = 0;
 
