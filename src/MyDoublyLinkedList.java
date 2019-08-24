@@ -31,15 +31,6 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         return str.toString();
     }
 
-    /* Define toString method
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for(E e : this) {
-            sb.append(e + ", ");
-        }
-        return sb.toString();
-    } */
-
     // Implement Equals method for MyList
     @Override
     public boolean equals(Object o) {
@@ -88,16 +79,8 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
             dummyHead.next = newFirst;
             dummyHead.next.prev = newFirst;
             size++;
+            super.size++;
         }
-        /* Link new node to both dummy and old first
-        newFirst.next = dummyHead.next;
-        newFirst.prev = dummyHead;
-
-        // Stitch up dummy and old first
-        dummyHead.next.prev = newFirst;
-        dummyHead.next = newFirst;
-
-        size++; */
     }
 
     // Implement addLast method
@@ -121,41 +104,51 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         // Conditional to test if linkedlist is empty
         if (size == 0) {
             throw new NoSuchElementException();
+        } else if (size == 1) {
+            Node<E> temp = dummyHead.next;
+            dummyHead.next = dummyHead;
+            dummyHead.prev = dummyHead;
+            size = 0;
+            super.size = 0;
+            return temp.element;
+        } else {
+            Node<E> first = dummyHead.next;
+            dummyHead.next = first.next;
+            first.next.prev = dummyHead;
+            size--;
+            super.size--;
+            return first.element;
         }
-        // Create container to store popped element
-        E removedElement = dummyHead.next.element;
-
-        // Store newFirst in variable
-        Node<E> newFirst = dummyHead.next.next;
-
-        // Perform stitch operation
-        dummyHead.next = newFirst;
-        newFirst.prev = dummyHead;
-
-        // Decrement size and return statement
-        size--;
-        return removedElement;
     }
 
+    // Implement removeLast method
     @Override
     public E removeLast() {
         // Conditional to test if linkedlist is empty
         if (size == 0) {
+            // Should an exception be thrown or should I return null? TBD....
             throw new NoSuchElementException();
+        } else if (size == 1) {
+            // Reset LinkedList to initial state
+            Node<E> temp = dummyHead.next;
+            dummyHead.next = dummyHead;
+            dummyHead.prev = dummyHead;
+            size = 0;
+            super.size = 0;
+            return temp.element;
+        } else {
+            // Iterate through list
+            Node<E> current = dummyHead.next;
+            while (current.next != dummyHead) {
+                current = current.next;
+            }
+            // Stitch up end of list, return last element
+            current.prev.next = dummyHead;
+            dummyHead.prev = current.prev;
+            size--;
+            super.size--;
+            return current.element;
         }
-        // Create container to store popped element
-        E removedElement = dummyHead.prev.element;
-
-        // Store newLast in variable
-        Node<E> newLast = dummyHead.prev.prev;
-
-        // Perform stitch operation
-        dummyHead.prev = newLast;
-        newLast.next = dummyHead;
-
-        // Decrement size and return statement
-        size--;
-        return removedElement;
     }
 
     @Override
@@ -316,7 +309,24 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
 
     @Override
     public E remove(int index) {
-        return null;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        } else if (index == 0) {
+            return removeFirst();
+        } else if (index == size-1) {
+            return removeLast();
+        } else {
+            Node<E> previous = dummyHead.next;
+            for (int i = 1; i < index; i++) {
+                previous = previous.next;
+            }
+            Node<E> current = previous.next;
+            previous.next = current.next;
+            current.next.prev = previous;
+            size--;
+            super.size--;
+            return current.element;
+        }
     }
 
     @Override
