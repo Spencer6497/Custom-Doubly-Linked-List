@@ -23,7 +23,8 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         if (((MyList) o).size() != this.size()) {
             return false;
         } else {
-            // Use iterator for this part
+            // Not fully build yet, returning false as default until iterator is built
+            return false;// Use iterator for this part
         }
 
     }
@@ -75,6 +76,10 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
     // Implement removeFirst method
     @Override
     public E removeFirst() {
+        // Conditional to test if linkedlist is empty
+        if (size == 0) {
+            throw new NoSuchElementException();
+        }
         // Create container to store popped element
         E removedElement = dummyHead.next.element;
 
@@ -92,6 +97,10 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
 
     @Override
     public E removeLast() {
+        // Conditional to test if linkedlist is empty
+        if (size == 0) {
+            throw new NoSuchElementException();
+        }
         // Create container to store popped element
         E removedElement = dummyHead.prev.element;
 
