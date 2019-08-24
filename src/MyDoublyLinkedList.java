@@ -12,6 +12,34 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         size = 0;
     }
 
+    // Define to String method
+    public String toString() {
+        // Instantiate new StringBuilder object to make string
+        StringBuilder str = new StringBuilder("[");
+
+        // Start at element after dummyHead
+        Node<E> current = dummyHead.next;
+        for(int i = 0; i < size; i++) {
+            str.append(current.element);
+            current = current.next;
+            if (current != null) {
+                str.append(", ");
+            } else {
+                str.append("]");
+            }
+        }
+        return str.toString();
+    }
+
+    /* Define toString method
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for(E e : this) {
+            sb.append(e + ", ");
+        }
+        return sb.toString();
+    } */
+
     // Implement Equals method for MyList
     @Override
     public boolean equals(Object o) {
@@ -46,7 +74,22 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
     public void addFirst(E e) {
         Node<E> newFirst = new Node<E>(e);
 
-        // Link new node to both dummy and old first
+        // if list is empty
+        if (size == 0) {
+             newFirst.prev = dummyHead;
+             newFirst.next = dummyHead;
+             dummyHead.next = newFirst;
+             dummyHead.prev = newFirst;
+             size++;
+             super.size++;
+        } else {
+            newFirst.prev = dummyHead;
+            newFirst.next = dummyHead.next;
+            dummyHead.next = newFirst;
+            dummyHead.next.prev = newFirst;
+            size++;
+        }
+        /* Link new node to both dummy and old first
         newFirst.next = dummyHead.next;
         newFirst.prev = dummyHead;
 
@@ -54,7 +97,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         dummyHead.next.prev = newFirst;
         dummyHead.next = newFirst;
 
-        size++;
+        size++; */
     }
 
     // Implement addLast method
@@ -65,8 +108,6 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         // Link new node to both dummy and old last
         newLast.next = dummyHead;
         newLast.prev = dummyHead.prev;
-
-        // Stitch up dummy and old last
         dummyHead.prev.next = newLast;
         dummyHead.prev = newLast;
 
@@ -210,7 +251,22 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
 
     @Override
     public void add(int index, E e) {
-
+        // Boundary cases
+        if (index == 0) {
+            addFirst(e);
+        } else if (index >= size) {
+            addLast(e);
+        // Insert in middle
+        } else {
+            Node<E> current = dummyHead.next;
+            for (int i = 1; i < index; i++) {
+                current = current.next;
+            }
+            Node<E> temp = current.next;
+            current.next = new Node<E>(e);
+            (current.next).next = temp;
+            size++;
+        }
     }
 
     @Override
@@ -228,9 +284,27 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         return null;
     }
 
+    // Define indexOf method as discussed in class
     @Override
     public int indexOf(E e) {
-        return 0;
+        if (e == null) {
+            Node<E> current = dummyHead.next;
+            for(int i = 0; i < size; i++) {
+                if (current.element == null) {
+                    return i;
+                }
+                current = current.next;
+            }
+        } else {
+            Node<E> current = dummyHead.next;
+            for(int i = 0; i < size; i++) {
+                if (e.equals(current.element)) {
+                    return i;
+                }
+                current = current.next;
+            }
+        }
+        return -1;
     }
 
     @Override

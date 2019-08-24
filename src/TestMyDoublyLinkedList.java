@@ -24,15 +24,15 @@ public class TestMyDoublyLinkedList {
 	}
 
     list.add("Alabama");
+    // test System.out.println(list.toString());
 	list.add("Alaska");
+	System.out.println(list.toString());
  	list.add("Arizona");
 	list.add("Arkansas");
 
 	// The list should now be:
-	// [Alabama, Alaska, Arizona, Arkansas]
+	// [Alabama, Alaska, Arizona, Arkansas
 	String listToString = list.toString();
-	//test
-	System.out.println(listToString);
 	if (listToString.equals("[Alabama, Alaska, Arizona, Arkansas]"))
 		System.out.println("Test 3 successful");
 	else {
