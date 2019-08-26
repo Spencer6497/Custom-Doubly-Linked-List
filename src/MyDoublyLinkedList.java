@@ -166,10 +166,13 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
     public class ListIterator<E> implements java.util.ListIterator<E> {
         // Declare current node, last node accessed and index
         private Node current = dummyHead.next;
+        private int indexOfNext;
         private Node last = null;
+        public boolean canRemove = false;
         private int i = 0;
 
         public ListIterator(int index ) {
+            i = index;
         }
 
         // Define method for determining if a list has a next node
@@ -181,7 +184,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         // Define method for returning next element in list
         @Override
         public E next() {
-            if (!hasNext()) {
+            if (!this.hasNext()) {
                 throw new NoSuchElementException();
             }
             last = current;
@@ -225,7 +228,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         // Define method for removing the last element that was returned by next() or previous()
         @Override
         public void remove() {
-            if (last == null) {
+            if (!canRemove) {
                 throw new IllegalStateException();
             }
             Node<E> p = last.prev;
