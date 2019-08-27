@@ -170,8 +170,12 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         public boolean canRemove = false;
         private int i = 0;
 
-        public ListIterator(int index ) {
-            i = index;
+        public ListIterator(int index) {
+            // Initialize iterator at given index
+            while (i < index) {
+                current = current.next;
+                i++;
+            }
         }
 
         // Define method for determining if a list has a next node
@@ -215,7 +219,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         // Define method for returning the next index in the list
         @Override
         public int nextIndex() {
-            return i + 1;
+            return i;
         }
 
         // Define method for returning the previous index in the list
