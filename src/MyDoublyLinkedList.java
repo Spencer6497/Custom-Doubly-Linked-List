@@ -166,7 +166,6 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
     public class ListIterator<E> implements java.util.ListIterator<E> {
         // Declare current node, last node accessed and index
         private Node current = dummyHead.next;
-        private int indexOfNext;
         private Node last = null;
         public boolean canRemove = false;
         private int i = 0;
@@ -197,7 +196,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         // Define method for determining if a list has a previous node
         @Override
         public boolean hasPrevious() {
-            return (i > size);
+            return (i > 0);
         }
 
         // Define method for returning previous element in list
@@ -286,11 +285,41 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
 
     @Override
     public boolean contains(E e) {
+        if (e == null) {
+            Node<E> current = dummyHead.next;
+            for (int i = 0; i < size; i++) {
+                if (current.element == null) {
+                    return true;
+                }
+                current = current.next;
+            }
+        } else {
+            Node<E> current = dummyHead.next;
+            for (int i = 0; i < size; i++) {
+                if (e.equals(current.element)) {
+                    return true;
+                }
+                current = current.next;
+            }
+            current = current.next;
+        }
         return false;
     }
 
+    // Implement get method
     @Override
     public E get(int index) {
+        // Test out of bounds
+        if (index < 0 || index > size - 1) {
+            throw new IndexOutOfBoundsException();
+        }
+        Node<E> current = dummyHead.next;
+        for (int i = 0; i < size; i++) {
+            if (i == index) {
+                return current.element;
+            }
+            current = current.next;
+        }
         return null;
     }
 
@@ -319,7 +348,25 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
 
     @Override
     public int lastIndexOf(E e) {
-        return 0;
+        if (e == null) {
+            Node<E> last = dummyHead.prev;
+            for (int i = size; i > 0; i--) {
+                if (last.element == null) {
+                    return i;
+                }
+                last = last.prev;
+            }
+        } else {
+            Node<E> last = dummyHead.prev;
+            for (int i = size - 1; i > 0; i--) {
+                if (e.equals(last.element)) {
+                    return i;
+                }
+                last = last.prev;
+            }
+
+        }
+        return -1;
     }
 
     @Override
