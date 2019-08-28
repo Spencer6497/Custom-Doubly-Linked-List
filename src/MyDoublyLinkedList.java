@@ -167,7 +167,6 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         // Declare current node, last node accessed and index
         private Node current = dummyHead.next;
         private Node last = null;
-        public boolean canRemove = false;
         private int i = 0;
 
         public ListIterator(int index) {
@@ -231,7 +230,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         // Define method for removing the last element that was returned by next() or previous()
         @Override
         public void remove() {
-            if (!canRemove) {
+            if (last == null) {
                 throw new IllegalStateException();
             }
             Node<E> p = last.prev;
@@ -239,6 +238,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
             p.next = n;
             n.prev = p;
             size--;
+            // Deal with case where last could be next (iterator moving backwards)
             if (current == last) {
                 current = n;
             } else {
@@ -249,7 +249,10 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
 
         @Override
         public void set(E e) {
-
+            if (last == null) {
+                throw new IllegalStateException();
+            }
+            last.element = e;
         }
 
         // Define method for inserting specified element into list
