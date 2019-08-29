@@ -116,14 +116,12 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
             dummyHead.next = dummyHead;
             dummyHead.prev = dummyHead;
             size = 0;
-            super.size = 0;
             return temp.element;
         } else {
             Node<E> first = dummyHead.next;
             dummyHead.next = first.next;
             first.next.prev = dummyHead;
             size--;
-            super.size--;
             return first.element;
         }
     }
@@ -141,7 +139,6 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
             dummyHead.next = dummyHead;
             dummyHead.prev = dummyHead;
             size = 0;
-            super.size = 0;
             return temp.element;
         } else {
             // Iterate through list
@@ -153,7 +150,6 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
             current.prev.next = dummyHead;
             dummyHead.prev = current.prev;
             size--;
-            super.size--;
             return current.element;
         }
     }
@@ -260,9 +256,18 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         }
 
         // Define method for inserting specified element into list
+        // Temporary for now, may change later
         @Override
         public void add(E e) {
-
+            Node<E> beforeCurrent = current.prev;
+            Node<E> newNode = new Node<E>(e);
+            beforeCurrent.next = newNode;
+            newNode.next = current;
+            current.prev = newNode;
+            newNode.prev = beforeCurrent;
+            size++;
+            i++;
+            last = null;
         }
     }
 
@@ -285,7 +290,6 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
             current.next = new Node<E>(e);
             (current.next).next = temp;
             size++;
-            super.size++;
         }
     }
 
@@ -397,7 +401,6 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
             previous.next = current.next;
             current.next.prev = previous;
             size--;
-            super.size--;
             return current.element;
         }
     }
@@ -425,6 +428,11 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
             newNode.prev = target.prev;
             return target.element;
         }
+    }
+
+    @Override
+    public int size() {
+        return size;
     }
 
     // Class definition for Node object
