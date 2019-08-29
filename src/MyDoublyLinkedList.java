@@ -167,6 +167,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         // Declare current node, last node accessed and index
         private Node current = dummyHead.next;
         private Node last = null;
+        private boolean canRemove = false;
         private int i = 0;
 
         public ListIterator(int index) {
@@ -193,6 +194,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
             E e = (E) current.element;
             current = current.next;
             i++;
+            canRemove = true;
             return e;
         }
 
@@ -212,6 +214,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
             E e = (E) current.element;
             i--;
             last = current;
+            canRemove = true;
             return e;
         }
 
@@ -245,6 +248,7 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
                 i--;
             }
             last = null;
+            canRemove = false;
         }
 
         @Override
