@@ -295,7 +295,10 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
 
     @Override
     public void clear() {
-
+        size = 0;
+        super.size = 0;
+        dummyHead.next = dummyHead;
+        dummyHead.prev = dummyHead;
     }
 
     @Override
