@@ -323,25 +323,25 @@ public class TestMyDoublyLinkedList {
 	System.out.println("Test 26 successful");
 
 	System.out.println("Testing clone method:");
-	/* skip clone method for now until functionality built out
+	// skip clone method for now until functionality built out
 	MyAbstractSequentialList<String> theClone = (MyDoublyLinkedList<String>)(list.clone());
 	if (theClone.toString().equals("[Michigan, null]"))
 		System.out.println("Test 27 successful");
 	else
 		throw new RuntimeException();
-	*/
+
     list.set(1,  "Kentucky");
     // [Michigan, Kentucky]
     if (list.toString().equals("[Michigan, Kentucky]"))
 		System.out.println("Test 28 successful");
 	else
 		throw new RuntimeException();
-    /* skip for now
+    // skip for now
 	if (theClone.toString().equals("[Michigan, null]"))
 		System.out.println("Test 29 successful");
 	else
 		throw new RuntimeException();
-    */
+
     list.clear();
     // []
     if (list.isEmpty() && list.size() == 0)

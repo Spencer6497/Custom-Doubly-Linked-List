@@ -31,6 +31,26 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         return str.toString();
     }
 
+    // Override clone() method
+    @Override
+    public Object clone() {
+        try {
+            // Shallow copy this
+            MyDoublyLinkedList<E> clone = (MyDoublyLinkedList<E>) super.clone();
+            // Make clone's head point to new dummy head node
+            Node<E> newDummy = new Node<E>(null);
+            clone.dummyHead = newDummy;
+            clone.dummyHead.next = newDummy;
+            clone.dummyHead.prev = newDummy;
+            clone.size = 0;
+            for (E e : this) {
+                clone.add(clone.size, e);
+            }
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            return null;
+        }
+    }
     // Implement Equals method for MyList
     @Override
     public boolean equals(Object o) {
