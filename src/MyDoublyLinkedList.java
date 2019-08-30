@@ -42,14 +42,15 @@ public class MyDoublyLinkedList<E> extends MyAbstractSequentialList<E> implement
         if (((MyList) o).size() != this.size()) {
             return false;
         } else {
-            /* Instantiate new iterators to compare objects
-            ListIterator<E> thisIterator = new ListIterator<E>(this);
-            ListIterator<E> otherIterator = new ListIterator<E>((MyDoublyLinkedList<E>) o);
+            // Instantiate new iterators to compare objects
+            ListIterator<E> thisIterator = this.listIterator(0);
+            ListIterator<E> otherIterator = ((MyDoublyLinkedList<E>) o).listIterator(0);
+            // Iterate through each element to check for similarity
             while (thisIterator.hasNext() && otherIterator.hasNext()) {
                 if (thisIterator.next() != otherIterator.next()) {
                     return false;
                 }
-            } */
+            }
             return true;
         }
 
