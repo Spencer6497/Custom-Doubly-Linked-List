@@ -1,5 +1,4 @@
 // Test driver for the MyDoublyLinkedList class.
-// by Jeff Ward
 
 import java.util.*;
 
